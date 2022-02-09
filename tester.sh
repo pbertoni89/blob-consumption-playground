@@ -15,8 +15,8 @@ myBlobs=1000
 for myElf in pool async; do
 	# shellcheck disable=SC2043
 	for myIms in 34; do
-		for myOms in 100 150; do
-			for myJobs in 1 $((nCores / 2)) $((nCores)); do
+		for myOms in 50 100 150 200; do
+			for myJobs in 1 $((nCores / 4)) $((nCores / 3)) $((nCores / 2)) $((nCores)); do
 				if [[ ${myJobs} -gt 1 && ${myElf} == "async" ]]; then break; fi
 
 				echo "--elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"

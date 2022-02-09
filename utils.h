@@ -253,6 +253,8 @@ public:
 
 	void drive(const int njobs, const int nblobs, const int in_ms, const int out_ms)
 	{
+		// FIXME iff async, nJobs shall be equal to NUM_CORES for alpha, omega stats ONLY
+
 		const auto ta = alpha(njobs, nblobs, in_ms, out_ms);
 
 		std::vector<std::thread> vt;
