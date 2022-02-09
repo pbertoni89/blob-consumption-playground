@@ -5,6 +5,7 @@
 #include <queue>
 #include <atomic>
 #include <string>
+#include <thread>
 #include <memory>
 #include <condition_variable>
 
@@ -208,3 +209,57 @@ public:
 void omega(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs, t_tp tpAlpha);
 
 boost::program_options::variables_map arg_parse(int argc, char ** argv);
+
+
+class IDriver
+{
+protected:
+	virtual void _producer(Producer & prod, int iIncomingMs, int iOutgoingMs) = 0;
+	virtual void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver) = 0;
+	[[nodiscard]] virtual size_t size() const = 0;
+	[[nodiscard]] virtual bool empty() const = 0;
+
+public:
+	void th_produce(const int iIncomingMs, const int iOutgoingMs)
+	{
+		Producer prod;
+
+		while (bWork)
+		{
+			iWorkProd ++;
+			if (bDebug)
+				LOG(info) << "producer " << iWorkProd << ", backlog " << size();
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(iIncomingMs));
+
+			_producer(prod, iIncomingMs, iOutgoingMs);
+		}
+		LOG(info) << "producer end with " << iWorkProd;
+	}
+
+	void th_consume(const int idx, const int iOutgoingMs)
+	{
+		size_t uMaxTasksEver = 0;
+
+		while (bWork or not empty())
+		{
+			_consumer(idx, iOutgoingMs, uMaxTasksEver);
+		}
+		LOG(info) << "consumer " << idx << " end with " << iWorkCons << ", max tasks ever " << uMaxTasksEver;
+	}
+
+	void drive(const int njobs, const int nblobs, const int in_ms, const int out_ms)
+	{
+		const auto ta = alpha(njobs, nblobs, in_ms, out_ms);
+
+		std::vector<std::thread> vt;
+		vt.emplace_back(&IDriver::th_produce, this, in_ms, out_ms);
+		for (auto i=0; i<njobs; i++)
+			vt.emplace_back(&IDriver::th_consume, this, i, out_ms);
+
+		for (auto & t : vt)
+			t.join();
+
+		omega(njobs, nblobs, in_ms, out_ms, ta);
+	}
+};

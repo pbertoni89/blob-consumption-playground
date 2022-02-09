@@ -47,8 +47,9 @@ int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoin
 void my_handler(const int s)
 {
 	std::cerr << "\n";
+	if (bDebug)
+		LOG(fatal) << "caught sig " << s;
 	bWork = false;
-	// LOG(fatal) << "caught sig " << s;
 }
 
 
