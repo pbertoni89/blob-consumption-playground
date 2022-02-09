@@ -1,6 +1,12 @@
 #pragma once
 
+#include <mutex>
 #include <chrono>
+#include <queue>
+#include <atomic>
+#include <string>
+#include <memory>
+#include <condition_variable>
 
 #include <boost/program_options.hpp>
 #include <boost/random.hpp>
@@ -13,6 +19,11 @@ using namespace std::chrono_literals;
 
 using t_tp = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
+
+extern std::atomic<bool> bWork, bDebug;
+extern std::atomic<int> iWorkProd, iWorkCons;
+
+
 [[nodiscard]] t_tp tic() noexcept;
 
 template<typename T>
@@ -21,6 +32,7 @@ tictoc(t_tp t0, t_tp t1) noexcept
 {
 	return std::chrono::duration_cast<T>(t1 >= t0 ? t1 - t0 : t0 - t1).count();
 }
+
 
 template<typename T>
 [[nodiscard]] decltype(auto)
@@ -41,6 +53,7 @@ T vector_sum(const std::vector<T> & v)
 
 constexpr size_t SZ_DATA = 1024;
 
+
 class Inferrable
 {
 	std::vector<int> m_i;
@@ -55,12 +68,14 @@ public:
 	}
 };
 
+
 class Blob : public Inferrable
 {
 	std::vector<int> m_b;
 public:
 	explicit Blob(const int _id) : Inferrable(_id), m_b(SZ_DATA * 2) {}
 };
+
 
 class Producer
 {
@@ -83,4 +98,113 @@ template <typename T>
 	return fib(n-1) + fib(n-2);
 }
 
-int blob_load(const std::shared_ptr<Blob> & spBlob, t_tp t0, bool bDebug, int iOutgoingMs);
+
+int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoingMs);
+
+
+template <typename T>
+class ConcurrentQueue
+{
+	const size_t _SZ_MAX, _SZ_WRN;
+	const bool _STRICT;
+	const std::string _NICK;
+
+	mutable std::mutex m_mu;
+	std::queue<T> m_qu;
+	std::condition_variable m_cv;
+
+	inline void _roll_if_needed()
+	{
+		if (_SZ_WRN > 0 and m_qu.size() >= _SZ_WRN)
+			LOG(warning) << "ConcurrentQueue " << _NICK << " overlap warn: " << m_qu.size() << " >= " << _SZ_WRN << ", max " << _SZ_MAX;
+
+		while (_SZ_MAX > 0 and m_qu.size() >= _SZ_MAX)
+		{
+			if (_STRICT)
+			{
+				LOG(error) << "ConcurrentQueue " << _NICK << " overlap: " << m_qu.size() << " >= " << _SZ_MAX;
+				throw std::runtime_error("strict ConcurrentQueue full");
+			}
+			else
+			{
+				const auto dropped = m_qu.front();
+				// `<< dropped` would require an operator overload. I'm pretty sure enable_if could help here, but who cares
+				LOG(error) << "ConcurrentQueue " << _NICK << " overlap drop: " << m_qu.size() << " >= " << _SZ_MAX;
+				m_qu.pop();
+			}
+		}
+	}
+
+public:
+	explicit ConcurrentQueue(const size_t size_max = 0, const size_t size_warn = 0, const bool strict = false, const std::string & nickname = "") :
+		_SZ_MAX(size_max),
+		_SZ_WRN(size_warn > 0
+				? std::min(size_max, size_warn)
+				: std::floor(0.9 * float(size_max))),
+		_STRICT(strict and size_max > 0),
+		_NICK(nickname)
+	{}
+
+	[[nodiscard]] T pop()
+	{
+		std::unique_lock<std::mutex> lock(m_mu);
+		while (m_qu.empty())
+		{
+			m_cv.wait(lock);
+		}
+		const auto item = m_qu.front();
+		m_qu.pop();
+		return item;
+	}
+
+	void pop(T & item)
+	{
+		std::unique_lock<std::mutex> lock(m_mu);
+		while (m_qu.empty())
+		{
+			m_cv.wait(lock);
+		}
+		item = m_qu.front();
+		m_qu.pop();
+	}
+
+	void push(const T & item)
+	{
+		{
+			std::unique_lock<std::mutex> lock(m_mu);
+			_roll_if_needed();
+			m_qu.push(item);
+		}
+		m_cv.notify_one();
+	}
+
+	template <typename... Args>
+	void push(Args && ... args)
+	{
+		{
+			std::unique_lock<std::mutex> lock(m_mu);
+			_roll_if_needed();
+			m_qu.emplace(std::forward<Args>(args)...);
+		}
+		m_cv.notify_one();
+	}
+
+	void push(T && item)
+	{
+		{
+			std::unique_lock<std::mutex> lock(m_mu);
+			_roll_if_needed();
+			m_qu.push(std::move(item));
+		}
+		m_cv.notify_one();
+	}
+
+	[[nodiscard]] size_t size() const { std::unique_lock<std::mutex> lock(m_mu); return m_qu.size(); }
+	[[nodiscard]] bool empty() const { std::unique_lock<std::mutex> lock(m_mu); return m_qu.empty(); }
+};
+
+
+[[nodiscard]] t_tp alpha(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs);
+void omega(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs, t_tp tpAlpha);
+
+boost::program_options::variables_map arg_parse(int argc, char ** argv);
