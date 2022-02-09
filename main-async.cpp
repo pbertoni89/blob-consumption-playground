@@ -41,7 +41,7 @@ protected:
 		{
 			// std::this_thread::yield();  // deprecated: it may flood the CPU with events
 			if (bDebug)
-				LOG(info) << "consumer " << idx << " empty";
+				LOG(trace) << "consumer " << idx << " empty";
 			std::this_thread::sleep_for(1ms);
 		}
 	}

@@ -211,6 +211,9 @@ void omega(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs, t_tp tpAlpha
 boost::program_options::variables_map arg_parse(int argc, char ** argv);
 
 
+[[nodiscard]] bool has_work(std::atomic<int> & ai) noexcept;
+
+
 class IDriver
 {
 protected:
@@ -224,7 +227,7 @@ public:
 	{
 		Producer prod;
 
-		while (bWork)
+		while (has_work(iWorkProd))
 		{
 			iWorkProd ++;
 			if (bDebug)
@@ -241,7 +244,7 @@ public:
 	{
 		size_t uMaxTasksEver = 0;
 
-		while (bWork or not empty())
+		while (has_work(iWorkCons) or not empty())
 		{
 			_consumer(idx, iOutgoingMs, uMaxTasksEver);
 		}

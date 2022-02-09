@@ -5,7 +5,7 @@
 
 
 std::atomic<bool> bWork = false, bDebug = false;
-std::atomic<int> iWorkProd = 0, iWorkCons = false;
+std::atomic<int> iWorkProd = 0, iWorkCons = 0, iWorkBlobs = 0;
 
 t_tp tic() noexcept
 {
@@ -55,13 +55,18 @@ void my_handler(const int s)
 
 t_tp alpha(const int nJobs, const int nBlobs, const int iIncomingMs, const int iOutgoingMs)
 {
-	LOG(info) << "will run with " << nJobs << " jobs on " << nBlobs << " blobs";
+	std::stringstream ss;
 	const auto EXP_RATE_S_INC = 1000 / iIncomingMs, EXP_RATE_S_OUT = (1000 / iOutgoingMs) * nJobs;
-	LOG(info) << "alpha: jobs " << nJobs << ", blobs " << nBlobs
+	ss << "alpha: jobs " << nJobs << ", blobs " << nBlobs
 		<< ", prod " << iIncomingMs << " [ms] -> " << EXP_RATE_S_INC << " [u/s]"
 		<< ", cons " << iOutgoingMs << " [ms] -> " << EXP_RATE_S_OUT << " [u/s]";
+	if (nBlobs > 0)
+		ss << ", expected execution time [s] " << nBlobs / (std::min(EXP_RATE_S_INC, EXP_RATE_S_OUT));
+	LOG(info) << ss.str();
+
 	iWorkProd = 0;
 	iWorkCons = 0;
+	iWorkBlobs = nBlobs;
 	bWork = true;
 	return tic();
 }
@@ -74,6 +79,16 @@ void omega(const int nJobs, const int nBlobs, const int iIncomingMs, const int i
 		EXP_RATE_OUT = (ALPHA_OMEGA_MS / iOutgoingMs) * nJobs;
 	LOG(info) << "omega: elapsed [ms] " << ALPHA_OMEGA_MS << ", prod " << iWorkProd << " act / " << EXP_RATE_INC << " exp, "
 		<< "cons " << iWorkCons << " act / " << EXP_RATE_OUT << " exp";
+}
+
+
+bool has_work(std::atomic<int> & ai) noexcept
+{
+	if (not bWork)
+		return false;
+	if (iWorkBlobs > 0)
+		return ai < iWorkBlobs;
+	return true;
 }
 
 
