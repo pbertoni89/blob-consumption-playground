@@ -54,5 +54,5 @@ int main(int argc, char ** argv)
 	// NJOBS forced with 1
 	Driver driver;
 	driver.drive(1, vm["nblobs"].as<int>(), vm["inms"].as<int>(), vm["outms"].as<int>());
-	return 0;
+	return iExitValue;
 }

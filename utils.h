@@ -22,7 +22,7 @@ using t_tp = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
 
 extern std::atomic<bool> bWork, bDebug;
-extern std::atomic<int> iWorkProd, iWorkCons;
+extern std::atomic<int> iWorkProd, iWorkCons, iExitValue;
 
 
 [[nodiscard]] t_tp tic() noexcept;

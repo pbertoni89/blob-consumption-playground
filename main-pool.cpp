@@ -47,5 +47,5 @@ int main(int argc, char ** argv)
 	auto vm = arg_parse(argc, argv);
 	Driver driver;
 	driver.drive(vm["njobs"].as<int>(), vm["nblobs"].as<int>(), vm["inms"].as<int>(), vm["outms"].as<int>());
-	return 0;
+	return iExitValue;
 }

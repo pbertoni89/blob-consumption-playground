@@ -5,7 +5,7 @@
 
 
 std::atomic<bool> bWork = false, bDebug = false;
-std::atomic<int> iWorkProd = 0, iWorkCons = 0, iWorkBlobs = 0;
+std::atomic<int> iWorkProd = 0, iWorkCons = 0, iWorkBlobs = 0, iExitValue = 0;
 
 t_tp tic() noexcept
 {
@@ -47,9 +47,10 @@ int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoin
 void my_handler(const int s)
 {
 	std::cerr << "\n";
-	if (bDebug)
+	// if (bDebug)
 		LOG(fatal) << "caught sig " << s;
 	bWork = false;
+	iExitValue = 1;
 }
 
 
