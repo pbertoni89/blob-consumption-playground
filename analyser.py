@@ -19,6 +19,7 @@ def df_scatter(df, xcol='act_time_s', ycol='exp_time_s', cat_col='elf'):
 
 
 def main(results_dir: str, do_show: bool = False):
+    print(f'running for data directory {results_dir}')
     re_cmd = re.compile(r'--elf (\w+) --inms (\d+) --outms (\d+) --njobs (\d+) --debug \d --nblobs (\d+)')
     re_alpha = re.compile(r'.*alpha.*-> (\d+).*-> (\d+).*\[s] (\d+)')
     re_omega = re.compile(r'.*omega.*\[ms] (\d+).*')
@@ -121,7 +122,7 @@ def main(results_dir: str, do_show: bool = False):
 
 
 if __name__ == '__main__':
-    hn = 'stampede'
-    # hn = 'ammiraglia'
-    path_to_dir = os.path.join(os.path.dirname(__file__), f'data-{hn}')
-    main(path_to_dir, do_show=True)
+    datas = [ll for ll in [x[0] for x in os.walk('.')] if ll.startswith('./data-')]
+    for data in datas:
+        path_to_dir = os.path.join(os.path.dirname(__file__), data)
+        main(path_to_dir, do_show=False)
