@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Run me with ./tester.sh | tee ./results.txt 2>&1
 
 function sigint_handler() {
 	{ set +x ;} 2> /dev/null
@@ -14,9 +15,9 @@ myBlobs=1000
 
 for myElf in pool async; do
 	# shellcheck disable=SC2043
-	for myIms in 34; do
+	for myIms in 26 34 43; do
 		for myOms in 50 100 150 200; do
-			for myJobs in 1 $((nCores / 4)) $((nCores / 3)) $((nCores / 2)) $((nCores)); do
+			for myJobs in 1 $((nCores / 4)) $((nCores / 2)) $((nCores)); do
 				if [[ ${myJobs} -gt 1 && ${myElf} == "async" ]]; then break; fi
 
 				echo "--elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"

@@ -1,0 +1,432 @@
+--elf pool --inms 26 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 18:48:05.675106] [0x00007fb0d288c140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 18:48:31.790508] [0x00007fb0d2888640] [info]    producer end with 1000
+[2022-02-11 18:49:01.017610] [0x00007fb0d2087640] [info]    consumer 0 end with 1000, max tasks ever 525
+[2022-02-11 18:49:01.017706] [0x00007fb0d288c140] [info]    omega: elapsed [ms] 55342, prod 1000 act / 2128 exp, cons 1000 act / 1106 exp
+--elf pool --inms 26 --outms 50 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 18:49:01.020222] [0x00007f6eecb19140] [info]    alpha: jobs 2, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 50 [ms] -> 40 [u/s], expected execution time [s] 26
+[2022-02-11 18:49:27.116828] [0x00007f6eecb15640] [info]    producer end with 1000
+[2022-02-11 18:49:29.024312] [0x00007f6eebb13640] [info]    consumer 1 end with 1000, max tasks ever 62
+[2022-02-11 18:49:29.024685] [0x00007f6eec314640] [info]    consumer 0 end with 1000, max tasks ever 63
+[2022-02-11 18:49:29.024733] [0x00007f6eecb19140] [info]    omega: elapsed [ms] 28004, prod 1000 act / 1077 exp, cons 1000 act / 1120 exp
+--elf pool --inms 26 --outms 50 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 18:49:29.027062] [0x00007f3882370140] [info]    alpha: jobs 4, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 50 [ms] -> 80 [u/s], expected execution time [s] 26
+[2022-02-11 18:49:55.105715] [0x00007f388236c640] [info]    producer end with 1000
+[2022-02-11 18:49:55.156100] [0x00007f388136a640] [info]    consumer 1 end with 1000, max tasks ever 1
+[2022-02-11 18:49:55.156405] [0x00007f3880368640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 18:49:55.157093] [0x00007f3881b6b640] [info]    consumer 0 end with 1000, max tasks ever 1
+[2022-02-11 18:49:55.157210] [0x00007f3880b69640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 18:49:55.157361] [0x00007f3882370140] [info]    omega: elapsed [ms] 26130, prod 1000 act / 1005 exp, cons 1000 act / 2088 exp
+--elf pool --inms 26 --outms 50 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 18:49:55.159387] [0x00007ff5d5cb5140] [info]    alpha: jobs 8, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 50 [ms] -> 160 [u/s], expected execution time [s] 26
+[2022-02-11 18:50:21.236986] [0x00007ff5d5cb1640] [info]    producer end with 1000
+[2022-02-11 18:50:21.287013] [0x00007ff5d54b0640] [info]    consumer 0 end with 1000, max tasks ever 1
+[2022-02-11 18:50:21.287516] [0x00007ff5d1ca9640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 18:50:21.287573] [0x00007ff5d44ae640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 18:50:21.287727] [0x00007ff5d4caf640] [info]    consumer 1 end with 1000, max tasks ever 1
+[2022-02-11 18:50:21.287921] [0x00007ff5d3cad640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 18:50:21.288054] [0x00007ff5d2cab640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 18:50:21.288075] [0x00007ff5d34ac640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 18:50:21.288098] [0x00007ff5d24aa640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 18:50:21.288148] [0x00007ff5d5cb5140] [info]    omega: elapsed [ms] 26128, prod 1000 act / 1004 exp, cons 1000 act / 4176 exp
+--elf pool --inms 26 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 18:50:21.290161] [0x00007f43cbd63140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 18:50:47.386828] [0x00007f43cbd5f640] [info]    producer end with 1000
+[2022-02-11 18:52:05.614613] [0x00007f43cb55e640] [info]    consumer 0 end with 1000, max tasks ever 748
+[2022-02-11 18:52:05.614660] [0x00007f43cbd63140] [info]    omega: elapsed [ms] 104324, prod 1000 act / 4012 exp, cons 1000 act / 1043 exp
+--elf pool --inms 26 --outms 100 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 18:52:05.617214] [0x00007f26930a3140] [info]    alpha: jobs 2, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 100 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 18:52:31.709598] [0x00007f269309f640] [info]    producer end with 1000
+[2022-02-11 18:52:57.636153] [0x00007f269289e640] [info]    consumer 0 end with 1000, max tasks ever 497
+[2022-02-11 18:52:57.636704] [0x00007f269209d640] [info]    consumer 1 end with 1000, max tasks ever 496
+[2022-02-11 18:52:57.636777] [0x00007f26930a3140] [info]    omega: elapsed [ms] 52019, prod 1000 act / 2000 exp, cons 1000 act / 1040 exp
+--elf pool --inms 26 --outms 100 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 18:52:57.639110] [0x00007f04054ec140] [info]    alpha: jobs 4, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 100 [ms] -> 40 [u/s], expected execution time [s] 26
+[2022-02-11 18:53:23.696603] [0x00007f04054e8640] [info]    producer end with 1000
+[2022-02-11 18:53:23.924519] [0x00007f04034e4640] [info]    consumer 3 end with 1000, max tasks ever 7
+[2022-02-11 18:53:23.924664] [0x00007f0403ce5640] [info]    consumer 2 end with 1000, max tasks ever 8
+[2022-02-11 18:53:23.925287] [0x00007f04044e6640] [info]    consumer 1 end with 1000, max tasks ever 7
+[2022-02-11 18:53:23.925531] [0x00007f0404ce7640] [info]    consumer 0 end with 1000, max tasks ever 7
+[2022-02-11 18:53:23.925616] [0x00007f04054ec140] [info]    omega: elapsed [ms] 26286, prod 1000 act / 1011 exp, cons 1000 act / 1048 exp
+--elf pool --inms 26 --outms 100 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 18:53:23.927553] [0x00007f340290a140] [info]    alpha: jobs 8, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 100 [ms] -> 80 [u/s], expected execution time [s] 26
+[2022-02-11 18:53:49.997429] [0x00007f3402906640] [info]    producer end with 1000
+[2022-02-11 18:53:50.097548] [0x00007f3400101640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 18:53:50.097568] [0x00007f33ff0ff640] [info]    consumer 6 end with 1000, max tasks ever 1
+[2022-02-11 18:53:50.097700] [0x00007f3400902640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 18:53:50.097907] [0x00007f33ff900640] [info]    consumer 5 end with 1000, max tasks ever 1
+[2022-02-11 18:53:50.098478] [0x00007f33fe8fe640] [info]    consumer 7 end with 1000, max tasks ever 1
+[2022-02-11 18:53:50.098499] [0x00007f3401904640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 18:53:50.098569] [0x00007f3402105640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 18:53:50.098577] [0x00007f3401103640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 18:53:50.098658] [0x00007f340290a140] [info]    omega: elapsed [ms] 26171, prod 1000 act / 1006 exp, cons 1000 act / 2088 exp
+--elf pool --inms 26 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 18:53:50.100580] [0x00007ff40a33c140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 18:54:16.187015] [0x00007ff40a338640] [info]    producer end with 1000
+[2022-02-11 18:56:26.487207] [0x00007ff409b37640] [info]    consumer 0 end with 1000, max tasks ever 834
+[2022-02-11 18:56:26.487301] [0x00007ff40a33c140] [info]    omega: elapsed [ms] 156386, prod 1000 act / 6014 exp, cons 1000 act / 1042 exp
+--elf pool --inms 26 --outms 150 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 18:56:26.489892] [0x00007f52d8a21140] [info]    alpha: jobs 2, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 150 [ms] -> 12 [u/s], expected execution time [s] 83
+[2022-02-11 18:56:52.582429] [0x00007f52d8a1d640] [info]    producer end with 1000
+[2022-02-11 18:57:44.295443] [0x00007f52d821c640] [info]    consumer 0 end with 1000, max tasks ever 664
+[2022-02-11 18:57:44.295540] [0x00007f52d7a1b640] [info]    consumer 1 end with 1000, max tasks ever 663
+[2022-02-11 18:57:44.295611] [0x00007f52d8a21140] [info]    omega: elapsed [ms] 77805, prod 1000 act / 2992 exp, cons 1000 act / 1036 exp
+--elf pool --inms 26 --outms 150 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 18:57:44.298156] [0x00007f29ca381140] [info]    alpha: jobs 4, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 150 [ms] -> 24 [u/s], expected execution time [s] 41
+[2022-02-11 18:58:10.358715] [0x00007f29ca37d640] [info]    producer end with 1000
+[2022-02-11 18:58:23.440125] [0x00007f29c9b7c640] [info]    consumer 0 end with 1000, max tasks ever 329
+[2022-02-11 18:58:23.440255] [0x00007f29c8379640] [info]    consumer 3 end with 1000, max tasks ever 329
+[2022-02-11 18:58:23.440382] [0x00007f29c937b640] [info]    consumer 1 end with 1000, max tasks ever 327
+[2022-02-11 18:58:23.440745] [0x00007f29c8b7a640] [info]    consumer 2 end with 1000, max tasks ever 328
+[2022-02-11 18:58:23.440781] [0x00007f29ca381140] [info]    omega: elapsed [ms] 39142, prod 1000 act / 1505 exp, cons 1000 act / 1040 exp
+--elf pool --inms 26 --outms 150 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 18:58:23.442951] [0x00007fbc196a9140] [info]    alpha: jobs 8, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 150 [ms] -> 48 [u/s], expected execution time [s] 26
+[2022-02-11 18:58:49.505384] [0x00007fbc196a5640] [info]    producer end with 1000
+[2022-02-11 18:58:49.655686] [0x00007fbc17ea2640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 18:58:49.655863] [0x00007fbc1669f640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 18:58:49.655896] [0x00007fbc176a1640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 18:58:49.655919] [0x00007fbc18ea4640] [info]    consumer 0 end with 1000, max tasks ever 1
+[2022-02-11 18:58:49.655928] [0x00007fbc16ea0640] [info]    consumer 4 end with 1000, max tasks ever 1
+[2022-02-11 18:58:49.656442] [0x00007fbc186a3640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 18:58:49.656599] [0x00007fbc1569d640] [info]    consumer 7 end with 1000, max tasks ever 1
+[2022-02-11 18:58:49.656736] [0x00007fbc15e9e640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 18:58:49.656823] [0x00007fbc196a9140] [info]    omega: elapsed [ms] 26213, prod 1000 act / 1008 exp, cons 1000 act / 1392 exp
+--elf pool --inms 26 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 18:58:49.658891] [0x00007f1d70e5b140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 18:59:15.760315] [0x00007f1d70e57640] [info]    producer end with 1000
+[2022-02-11 19:02:14.339238] [0x00007f1d70656640] [info]    consumer 0 end with 1000, max tasks ever 872
+[2022-02-11 19:02:14.339354] [0x00007f1d70e5b140] [info]    omega: elapsed [ms] 204680, prod 1000 act / 7872 exp, cons 1000 act / 1023 exp
+--elf pool --inms 26 --outms 200 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:02:14.341892] [0x00007fad5d3e9140] [info]    alpha: jobs 2, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 200 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:02:40.431195] [0x00007fad5d3e5640] [info]    producer end with 1000
+[2022-02-11 19:03:56.587897] [0x00007fad5cbe4640] [info]    consumer 0 end with 1000, max tasks ever 743
+[2022-02-11 19:03:56.588170] [0x00007fad5c3e3640] [info]    consumer 1 end with 1000, max tasks ever 744
+[2022-02-11 19:03:56.588228] [0x00007fad5d3e9140] [info]    omega: elapsed [ms] 102246, prod 1000 act / 3932 exp, cons 1000 act / 1022 exp
+--elf pool --inms 26 --outms 200 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:03:56.590886] [0x00007fcc5d18c140] [info]    alpha: jobs 4, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 200 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:04:22.652105] [0x00007fcc5d188640] [info]    producer end with 1000
+[2022-02-11 19:04:48.091078] [0x00007fcc5c186640] [info]    consumer 1 end with 1000, max tasks ever 490
+[2022-02-11 19:04:48.091251] [0x00007fcc5b184640] [info]    consumer 3 end with 1000, max tasks ever 491
+[2022-02-11 19:04:48.091309] [0x00007fcc5c987640] [info]    consumer 0 end with 1000, max tasks ever 492
+[2022-02-11 19:04:48.091747] [0x00007fcc5b985640] [info]    consumer 2 end with 1000, max tasks ever 492
+[2022-02-11 19:04:48.091832] [0x00007fcc5d18c140] [info]    omega: elapsed [ms] 51500, prod 1000 act / 1980 exp, cons 1000 act / 1028 exp
+--elf pool --inms 26 --outms 200 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:04:48.094096] [0x00007fae91ddb140] [info]    alpha: jobs 8, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 200 [ms] -> 40 [u/s], expected execution time [s] 26
+[2022-02-11 19:05:14.151300] [0x00007fae91dd7640] [info]    producer end with 1000
+[2022-02-11 19:05:14.396044] [0x00007fae905d4640] [info]    consumer 2 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396098] [0x00007fae8fdd3640] [info]    consumer 3 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396332] [0x00007fae90dd5640] [info]    consumer 1 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396499] [0x00007fae8edd1640] [info]    consumer 5 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396507] [0x00007fae8e5d0640] [info]    consumer 6 end with 1000, max tasks ever 3
+[2022-02-11 19:05:14.396625] [0x00007fae915d6640] [info]    consumer 0 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396868] [0x00007fae8f5d2640] [info]    consumer 4 end with 1000, max tasks ever 4
+[2022-02-11 19:05:14.396905] [0x00007fae8ddcf640] [info]    consumer 7 end with 1000, max tasks ever 3
+[2022-02-11 19:05:14.397032] [0x00007fae91ddb140] [info]    omega: elapsed [ms] 26302, prod 1000 act / 1011 exp, cons 1000 act / 1048 exp
+--elf pool --inms 34 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:05:14.399173] [0x00007fad6155a140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:05:48.477201] [0x00007fad61556640] [info]    producer end with 1000
+[2022-02-11 19:06:09.694206] [0x00007fad60d55640] [info]    consumer 0 end with 1000, max tasks ever 379
+[2022-02-11 19:06:09.694287] [0x00007fad6155a140] [info]    omega: elapsed [ms] 55295, prod 1000 act / 1626 exp, cons 1000 act / 1105 exp
+--elf pool --inms 34 --outms 50 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:06:09.696696] [0x00007f1e98cfe140] [info]    alpha: jobs 2, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 50 [ms] -> 40 [u/s], expected execution time [s] 34
+[2022-02-11 19:06:43.773954] [0x00007f1e98cfa640] [info]    producer end with 1000
+[2022-02-11 19:06:43.824195] [0x00007f1e984f9640] [info]    consumer 0 end with 1000, max tasks ever 3
+[2022-02-11 19:06:43.824908] [0x00007f1e97cf8640] [info]    consumer 1 end with 1000, max tasks ever 2
+[2022-02-11 19:06:43.824989] [0x00007f1e98cfe140] [info]    omega: elapsed [ms] 34128, prod 1000 act / 1003 exp, cons 1000 act / 1364 exp
+--elf pool --inms 34 --outms 50 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:06:43.827199] [0x00007f8722668140] [info]    alpha: jobs 4, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 50 [ms] -> 80 [u/s], expected execution time [s] 34
+[2022-02-11 19:07:17.911668] [0x00007f8722664640] [info]    producer end with 1000
+[2022-02-11 19:07:17.961781] [0x00007f8721662640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:07:17.962408] [0x00007f8720e61640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:07:17.962828] [0x00007f8720660640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:07:17.962840] [0x00007f8721e63640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:07:17.962922] [0x00007f8722668140] [info]    omega: elapsed [ms] 34135, prod 1000 act / 1003 exp, cons 1000 act / 2728 exp
+--elf pool --inms 34 --outms 50 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:07:17.964912] [0x00007f5e25abf140] [info]    alpha: jobs 8, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 50 [ms] -> 160 [u/s], expected execution time [s] 34
+[2022-02-11 19:07:52.044103] [0x00007f5e25abb640] [info]    producer end with 1000
+[2022-02-11 19:07:52.094127] [0x00007f5e242b8640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094253] [0x00007f5e22ab5640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094275] [0x00007f5e222b4640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094295] [0x00007f5e21ab3640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094382] [0x00007f5e252ba640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094428] [0x00007f5e232b6640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094796] [0x00007f5e24ab9640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094902] [0x00007f5e23ab7640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:07:52.094989] [0x00007f5e25abf140] [info]    omega: elapsed [ms] 34130, prod 1000 act / 1003 exp, cons 1000 act / 5456 exp
+--elf pool --inms 34 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:07:52.097169] [0x00007fe5b5f6d140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:08:26.187086] [0x00007fe5b5f69640] [info]    producer end with 1000
+[2022-02-11 19:09:36.436795] [0x00007fe5b5768640] [info]    consumer 0 end with 1000, max tasks ever 670
+[2022-02-11 19:09:36.436877] [0x00007fe5b5f6d140] [info]    omega: elapsed [ms] 104339, prod 1000 act / 3068 exp, cons 1000 act / 1043 exp
+--elf pool --inms 34 --outms 100 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:09:36.439467] [0x00007f28da647140] [info]    alpha: jobs 2, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 100 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:10:10.529648] [0x00007f28da643640] [info]    producer end with 1000
+[2022-02-11 19:10:28.509924] [0x00007f28d9e42640] [info]    consumer 0 end with 1000, max tasks ever 344
+[2022-02-11 19:10:28.510924] [0x00007f28d9641640] [info]    consumer 1 end with 1000, max tasks ever 344
+[2022-02-11 19:10:28.511027] [0x00007f28da647140] [info]    omega: elapsed [ms] 52071, prod 1000 act / 1531 exp, cons 1000 act / 1040 exp
+--elf pool --inms 34 --outms 100 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:10:28.513341] [0x00007fe759c58140] [info]    alpha: jobs 4, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 100 [ms] -> 40 [u/s], expected execution time [s] 34
+[2022-02-11 19:11:02.585501] [0x00007fe759c54640] [info]    producer end with 1000
+[2022-02-11 19:11:02.685671] [0x00007fe759453640] [info]    consumer 0 end with 1000, max tasks ever 1
+[2022-02-11 19:11:02.686082] [0x00007fe758451640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 19:11:02.686644] [0x00007fe757c50640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 19:11:02.686711] [0x00007fe758c52640] [info]    consumer 1 end with 1000, max tasks ever 1
+[2022-02-11 19:11:02.686825] [0x00007fe759c58140] [info]    omega: elapsed [ms] 34173, prod 1000 act / 1005 exp, cons 1000 act / 1364 exp
+--elf pool --inms 34 --outms 100 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:11:02.688936] [0x00007f047175b140] [info]    alpha: jobs 8, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 100 [ms] -> 80 [u/s], expected execution time [s] 34
+[2022-02-11 19:11:36.763311] [0x00007f0471757640] [info]    producer end with 1000
+[2022-02-11 19:11:36.863435] [0x00007f046f753640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:11:36.863490] [0x00007f046e751640] [info]    consumer 5 end with 1000, max tasks ever 1
+[2022-02-11 19:11:36.863829] [0x00007f046df50640] [info]    consumer 6 end with 1000, max tasks ever 1
+[2022-02-11 19:11:36.863856] [0x00007f0470755640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:11:36.864085] [0x00007f046ff54640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:11:36.864129] [0x00007f046d74f640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:11:36.864168] [0x00007f0470f56640] [info]    consumer 0 end with 1000, max tasks ever 1
+[2022-02-11 19:11:36.864236] [0x00007f046ef52640] [info]    consumer 4 end with 1000, max tasks ever 1
+[2022-02-11 19:11:36.864289] [0x00007f047175b140] [info]    omega: elapsed [ms] 34175, prod 1000 act / 1005 exp, cons 1000 act / 2728 exp
+--elf pool --inms 34 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:11:36.866246] [0x00007f53a56be140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 19:12:10.966984] [0x00007f53a56ba640] [info]    producer end with 1000
+[2022-02-11 19:14:13.387420] [0x00007f53a4eb9640] [info]    consumer 0 end with 1000, max tasks ever 782
+[2022-02-11 19:14:13.387471] [0x00007f53a56be140] [info]    omega: elapsed [ms] 156521, prod 1000 act / 4603 exp, cons 1000 act / 1043 exp
+--elf pool --inms 34 --outms 150 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:14:13.390041] [0x00007f70626dd140] [info]    alpha: jobs 2, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 150 [ms] -> 12 [u/s], expected execution time [s] 83
+[2022-02-11 19:14:47.486051] [0x00007f70626d9640] [info]    producer end with 1000
+[2022-02-11 19:15:30.935100] [0x00007f70616d7640] [info]    consumer 1 end with 1000, max tasks ever 559
+[2022-02-11 19:15:30.935179] [0x00007f7061ed8640] [info]    consumer 0 end with 1000, max tasks ever 558
+[2022-02-11 19:15:30.935266] [0x00007f70626dd140] [info]    omega: elapsed [ms] 77545, prod 1000 act / 2280 exp, cons 1000 act / 1032 exp
+--elf pool --inms 34 --outms 150 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:15:30.937750] [0x00007f8c09d7e140] [info]    alpha: jobs 4, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 150 [ms] -> 24 [u/s], expected execution time [s] 41
+[2022-02-11 19:16:04.996089] [0x00007f8c09d7a640] [info]    producer end with 1000
+[2022-02-11 19:16:10.091231] [0x00007f8c09579640] [info]    consumer 0 end with 1000, max tasks ever 126
+[2022-02-11 19:16:10.091305] [0x00007f8c08d78640] [info]    consumer 1 end with 1000, max tasks ever 125
+[2022-02-11 19:16:10.091762] [0x00007f8c08577640] [info]    consumer 2 end with 1000, max tasks ever 125
+[2022-02-11 19:16:10.092345] [0x00007f8c07d76640] [info]    consumer 3 end with 1000, max tasks ever 127
+[2022-02-11 19:16:10.092384] [0x00007f8c09d7e140] [info]    omega: elapsed [ms] 39154, prod 1000 act / 1151 exp, cons 1000 act / 1044 exp
+--elf pool --inms 34 --outms 150 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:16:10.094360] [0x00007f16b8a7a140] [info]    alpha: jobs 8, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 150 [ms] -> 48 [u/s], expected execution time [s] 34
+[2022-02-11 19:16:44.162441] [0x00007f16b8a76640] [info]    producer end with 1000
+[2022-02-11 19:16:44.312771] [0x00007f16b8275640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.312914] [0x00007f16b526f640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313383] [0x00007f16b4a6e640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313393] [0x00007f16b6a72640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313443] [0x00007f16b6271640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313449] [0x00007f16b7a74640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313541] [0x00007f16b7273640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313751] [0x00007f16b5a70640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 19:16:44.313829] [0x00007f16b8a7a140] [info]    omega: elapsed [ms] 34219, prod 1000 act / 1006 exp, cons 1000 act / 1824 exp
+--elf pool --inms 34 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:16:44.315877] [0x00007f529829d140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 19:17:18.406651] [0x00007f5298299640] [info]    producer end with 1000
+[2022-02-11 19:20:08.833149] [0x00007f5297a98640] [info]    consumer 0 end with 1000, max tasks ever 833
+[2022-02-11 19:20:08.833260] [0x00007f529829d140] [info]    omega: elapsed [ms] 204517, prod 1000 act / 6015 exp, cons 1000 act / 1022 exp
+--elf pool --inms 34 --outms 200 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:20:08.835992] [0x00007f200a189140] [info]    alpha: jobs 2, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 200 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:20:42.933607] [0x00007f200a185640] [info]    producer end with 1000
+[2022-02-11 19:21:51.086082] [0x00007f2009984640] [info]    consumer 0 end with 1000, max tasks ever 665
+[2022-02-11 19:21:51.086426] [0x00007f2009183640] [info]    consumer 1 end with 1000, max tasks ever 666
+[2022-02-11 19:21:51.086481] [0x00007f200a189140] [info]    omega: elapsed [ms] 102250, prod 1000 act / 3007 exp, cons 1000 act / 1022 exp
+--elf pool --inms 34 --outms 200 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:21:51.089059] [0x00007f3301972140] [info]    alpha: jobs 4, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 200 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:22:25.149477] [0x00007f330196e640] [info]    producer end with 1000
+[2022-02-11 19:22:42.610057] [0x00007f330116d640] [info]    consumer 0 end with 1000, max tasks ever 335
+[2022-02-11 19:22:42.610612] [0x00007f32ff96a640] [info]    consumer 3 end with 1000, max tasks ever 335
+[2022-02-11 19:22:42.610728] [0x00007f330016b640] [info]    consumer 2 end with 1000, max tasks ever 336
+[2022-02-11 19:22:42.611036] [0x00007f330096c640] [info]    consumer 1 end with 1000, max tasks ever 335
+[2022-02-11 19:22:42.611118] [0x00007f3301972140] [info]    omega: elapsed [ms] 51522, prod 1000 act / 1515 exp, cons 1000 act / 1028 exp
+--elf pool --inms 34 --outms 200 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:22:42.613237] [0x00007f9ac25dc140] [info]    alpha: jobs 8, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 200 [ms] -> 40 [u/s], expected execution time [s] 34
+[2022-02-11 19:23:16.677389] [0x00007f9ac25d8640] [info]    producer end with 1000
+[2022-02-11 19:23:16.877785] [0x00007f9ac15d6640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:23:16.877869] [0x00007f9abfdd3640] [info]    consumer 4 end with 1000, max tasks ever 1
+[2022-02-11 19:23:16.877874] [0x00007f9abedd1640] [info]    consumer 6 end with 1000, max tasks ever 1
+[2022-02-11 19:23:16.877933] [0x00007f9abe5d0640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:23:16.878082] [0x00007f9ac0dd5640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 19:23:16.878438] [0x00007f9ac1dd7640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:23:16.878563] [0x00007f9abf5d2640] [info]    consumer 5 end with 1000, max tasks ever 1
+[2022-02-11 19:23:16.878645] [0x00007f9ac05d4640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 19:23:16.878721] [0x00007f9ac25dc140] [info]    omega: elapsed [ms] 34265, prod 1000 act / 1007 exp, cons 1000 act / 1368 exp
+--elf pool --inms 43 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:23:16.880725] [0x00007fdccfb9c140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:23:59.976034] [0x00007fdccfb98640] [info]    producer end with 1000
+[2022-02-11 19:24:12.290072] [0x00007fdccf397640] [info]    consumer 0 end with 1000, max tasks ever 222
+[2022-02-11 19:24:12.290135] [0x00007fdccfb9c140] [info]    omega: elapsed [ms] 55409, prod 1000 act / 1288 exp, cons 1000 act / 1108 exp
+--elf pool --inms 43 --outms 50 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:24:12.292327] [0x00007fbae8046140] [info]    alpha: jobs 2, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 50 [ms] -> 40 [u/s], expected execution time [s] 43
+[2022-02-11 19:24:55.375200] [0x00007fbae8042640] [info]    producer end with 1000
+[2022-02-11 19:24:55.426276] [0x00007fbae7841640] [info]    consumer 0 end with 1000, max tasks ever 2
+[2022-02-11 19:24:55.426468] [0x00007fbae7040640] [info]    consumer 1 end with 1000, max tasks ever 2
+[2022-02-11 19:24:55.426570] [0x00007fbae8046140] [info]    omega: elapsed [ms] 43134, prod 1000 act / 1003 exp, cons 1000 act / 1724 exp
+--elf pool --inms 43 --outms 50 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:24:55.428598] [0x00007fc0416a4140] [info]    alpha: jobs 4, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 50 [ms] -> 80 [u/s], expected execution time [s] 43
+[2022-02-11 19:25:38.512741] [0x00007fc0416a0640] [info]    producer end with 1000
+[2022-02-11 19:25:38.563296] [0x00007fc040e9f640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:25:38.563311] [0x00007fc04069e640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:25:38.563338] [0x00007fc03fe9d640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 19:25:38.563717] [0x00007fc03f69c640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:25:38.563805] [0x00007fc0416a4140] [info]    omega: elapsed [ms] 43135, prod 1000 act / 1003 exp, cons 1000 act / 3448 exp
+--elf pool --inms 43 --outms 50 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:25:38.565916] [0x00007fc6bd5bf140] [info]    alpha: jobs 8, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 50 [ms] -> 160 [u/s], expected execution time [s] 43
+[2022-02-11 19:26:21.646419] [0x00007fc6bd5bb640] [info]    producer end with 1000
+[2022-02-11 19:26:21.696977] [0x00007fc6bc5b9640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697003] [0x00007fc6badb6640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697109] [0x00007fc6b9db4640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697118] [0x00007fc6ba5b5640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697164] [0x00007fc6b95b3640] [info]    consumer 7 end with 1000, max tasks ever 1
+[2022-02-11 19:26:21.697191] [0x00007fc6bcdba640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697537] [0x00007fc6bb5b7640] [info]    consumer 3 end with 1000, max tasks ever 1
+[2022-02-11 19:26:21.697604] [0x00007fc6bbdb8640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:26:21.697725] [0x00007fc6bd5bf140] [info]    omega: elapsed [ms] 43131, prod 1000 act / 1003 exp, cons 1000 act / 6896 exp
+--elf pool --inms 43 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:26:21.699680] [0x00007fad66ab3140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:27:04.799066] [0x00007fad66aaf640] [info]    producer end with 1000
+[2022-02-11 19:28:06.004252] [0x00007fad662ae640] [info]    consumer 0 end with 1000, max tasks ever 584
+[2022-02-11 19:28:06.004347] [0x00007fad66ab3140] [info]    omega: elapsed [ms] 104304, prod 1000 act / 2425 exp, cons 1000 act / 1043 exp
+--elf pool --inms 43 --outms 100 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:28:06.006848] [0x00007f241e57d140] [info]    alpha: jobs 2, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 100 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:28:49.095098] [0x00007f241e579640] [info]    producer end with 1000
+[2022-02-11 19:28:58.200532] [0x00007f241dd78640] [info]    consumer 0 end with 1000, max tasks ever 174
+[2022-02-11 19:28:58.200688] [0x00007f241d577640] [info]    consumer 1 end with 1000, max tasks ever 174
+[2022-02-11 19:28:58.200757] [0x00007f241e57d140] [info]    omega: elapsed [ms] 52193, prod 1000 act / 1213 exp, cons 1000 act / 1042 exp
+--elf pool --inms 43 --outms 100 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:28:58.203063] [0x00007f601c843140] [info]    alpha: jobs 4, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 100 [ms] -> 40 [u/s], expected execution time [s] 43
+[2022-02-11 19:29:41.277544] [0x00007f601c83f640] [info]    producer end with 1000
+[2022-02-11 19:29:41.377743] [0x00007f601b03c640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:29:41.378249] [0x00007f601a83b640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:29:41.378276] [0x00007f601c03e640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:29:41.378356] [0x00007f601b83d640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:29:41.378474] [0x00007f601c843140] [info]    omega: elapsed [ms] 43175, prod 1000 act / 1004 exp, cons 1000 act / 1724 exp
+--elf pool --inms 43 --outms 100 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:29:41.380415] [0x00007fd2e980e140] [info]    alpha: jobs 8, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 100 [ms] -> 80 [u/s], expected execution time [s] 43
+[2022-02-11 19:30:24.455719] [0x00007fd2e980a640] [info]    producer end with 1000
+[2022-02-11 19:30:24.556480] [0x00007fd2e6804640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.556578] [0x00007fd2e8007640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.556587] [0x00007fd2e7005640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.556794] [0x00007fd2e6003640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.556802] [0x00007fd2e8808640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.556967] [0x00007fd2e7806640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.557250] [0x00007fd2e9009640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.557378] [0x00007fd2e5802640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:30:24.557447] [0x00007fd2e980e140] [info]    omega: elapsed [ms] 43177, prod 1000 act / 1004 exp, cons 1000 act / 3448 exp
+--elf pool --inms 43 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:30:24.559435] [0x00007fb90544b140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 19:31:07.659828] [0x00007fb905447640] [info]    producer end with 1000
+[2022-02-11 19:33:01.102707] [0x00007fb904c46640] [info]    consumer 0 end with 1000, max tasks ever 725
+[2022-02-11 19:33:01.102808] [0x00007fb90544b140] [info]    omega: elapsed [ms] 156543, prod 1000 act / 3640 exp, cons 1000 act / 1043 exp
+--elf pool --inms 43 --outms 150 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:33:01.105308] [0x00007f8307c40140] [info]    alpha: jobs 2, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 150 [ms] -> 12 [u/s], expected execution time [s] 83
+[2022-02-11 19:33:44.201079] [0x00007f8307c3c640] [info]    producer end with 1000
+[2022-02-11 19:34:18.708270] [0x00007f830743b640] [info]    consumer 0 end with 1000, max tasks ever 442
+[2022-02-11 19:34:18.709079] [0x00007f8306c3a640] [info]    consumer 1 end with 1000, max tasks ever 441
+[2022-02-11 19:34:18.709194] [0x00007f8307c40140] [info]    omega: elapsed [ms] 77603, prod 1000 act / 1804 exp, cons 1000 act / 1034 exp
+--elf pool --inms 43 --outms 150 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:34:18.711367] [0x00007f67a4158140] [info]    alpha: jobs 4, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 150 [ms] -> 24 [u/s], expected execution time [s] 43
+[2022-02-11 19:35:01.775855] [0x00007f67a4154640] [info]    producer end with 1000
+[2022-02-11 19:35:01.926778] [0x00007f67a2951640] [info]    consumer 2 end with 1000, max tasks ever 1
+[2022-02-11 19:35:01.926901] [0x00007f67a2150640] [info]    consumer 3 end with 1000, max tasks ever 2
+[2022-02-11 19:35:01.927487] [0x00007f67a3953640] [info]    consumer 0 end with 1000, max tasks ever 2
+[2022-02-11 19:35:01.927727] [0x00007f67a3152640] [info]    consumer 1 end with 1000, max tasks ever 1
+[2022-02-11 19:35:01.927812] [0x00007f67a4158140] [info]    omega: elapsed [ms] 43216, prod 1000 act / 1005 exp, cons 1000 act / 1152 exp
+--elf pool --inms 43 --outms 150 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:35:01.929812] [0x00007f06c802c140] [info]    alpha: jobs 8, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 150 [ms] -> 48 [u/s], expected execution time [s] 43
+[2022-02-11 19:35:45.001079] [0x00007f06c8028640] [info]    producer end with 1000
+[2022-02-11 19:35:45.151332] [0x00007f06c4020640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.151531] [0x00007f06c6024640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.151750] [0x00007f06c5022640] [info]    consumer 5 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.151761] [0x00007f06c7827640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.151822] [0x00007f06c5823640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.152059] [0x00007f06c7026640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.152100] [0x00007f06c6825640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.152221] [0x00007f06c4821640] [info]    consumer 6 end with 1000, max tasks ever 0
+[2022-02-11 19:35:45.152327] [0x00007f06c802c140] [info]    omega: elapsed [ms] 43222, prod 1000 act / 1005 exp, cons 1000 act / 2304 exp
+--elf pool --inms 43 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:35:45.154423] [0x00007f321c8ad140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 19:36:28.248258] [0x00007f321c8a9640] [info]    producer end with 1000
+[2022-02-11 19:39:09.670246] [0x00007f321c0a8640] [info]    consumer 0 end with 1000, max tasks ever 789
+[2022-02-11 19:39:09.670312] [0x00007f321c8ad140] [info]    omega: elapsed [ms] 204515, prod 1000 act / 4756 exp, cons 1000 act / 1022 exp
+--elf pool --inms 43 --outms 200 --njobs 2 --debug 0 --nblobs 1000
+[2022-02-11 19:39:09.672928] [0x00007f3070734140] [info]    alpha: jobs 2, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 200 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:39:52.770987] [0x00007f3070730640] [info]    producer end with 1000
+[2022-02-11 19:40:51.861757] [0x00007f306f72e640] [info]    consumer 1 end with 1000, max tasks ever 577
+[2022-02-11 19:40:51.862105] [0x00007f306ff2f640] [info]    consumer 0 end with 1000, max tasks ever 577
+[2022-02-11 19:40:51.862199] [0x00007f3070734140] [info]    omega: elapsed [ms] 102189, prod 1000 act / 2376 exp, cons 1000 act / 1020 exp
+--elf pool --inms 43 --outms 200 --njobs 4 --debug 0 --nblobs 1000
+[2022-02-11 19:40:51.864708] [0x00007fc2ab031140] [info]    alpha: jobs 4, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 200 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:41:34.923523] [0x00007fc2ab02d640] [info]    producer end with 1000
+[2022-02-11 19:41:43.404085] [0x00007fc2aa02b640] [info]    consumer 1 end with 1000, max tasks ever 162
+[2022-02-11 19:41:43.404476] [0x00007fc2a982a640] [info]    consumer 2 end with 1000, max tasks ever 162
+[2022-02-11 19:41:43.404781] [0x00007fc2aa82c640] [info]    consumer 0 end with 1000, max tasks ever 163
+[2022-02-11 19:41:43.405076] [0x00007fc2a9029640] [info]    consumer 3 end with 1000, max tasks ever 163
+[2022-02-11 19:41:43.405129] [0x00007fc2ab031140] [info]    omega: elapsed [ms] 51540, prod 1000 act / 1198 exp, cons 1000 act / 1028 exp
+--elf pool --inms 43 --outms 200 --njobs 8 --debug 0 --nblobs 1000
+[2022-02-11 19:41:43.407139] [0x00007f8dda1fb140] [info]    alpha: jobs 8, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 200 [ms] -> 40 [u/s], expected execution time [s] 43
+[2022-02-11 19:42:26.474045] [0x00007f8dda1f7640] [info]    producer end with 1000
+[2022-02-11 19:42:26.674136] [0x00007f8dd99f6640] [info]    consumer 0 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674183] [0x00007f8dd61ef640] [info]    consumer 7 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674227] [0x00007f8dd81f3640] [info]    consumer 3 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674237] [0x00007f8dd69f0640] [info]    consumer 6 end with 1000, max tasks ever 1
+[2022-02-11 19:42:26.674246] [0x00007f8dd89f4640] [info]    consumer 2 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674517] [0x00007f8dd71f1640] [info]    consumer 5 end with 1000, max tasks ever 1
+[2022-02-11 19:42:26.674523] [0x00007f8dd91f5640] [info]    consumer 1 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674796] [0x00007f8dd79f2640] [info]    consumer 4 end with 1000, max tasks ever 0
+[2022-02-11 19:42:26.674903] [0x00007f8dda1fb140] [info]    omega: elapsed [ms] 43267, prod 1000 act / 1006 exp, cons 1000 act / 1728 exp
+--elf async --inms 26 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:42:26.678224] [0x00007f55a7773140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:42:52.779758] [0x00007f55a776f640] [info]    producer end with 1000
+[2022-02-11 19:42:52.830852] [0x00007f55a6f6e640] [info]    consumer 0 end with 1000, max tasks ever 5
+[2022-02-11 19:42:52.830955] [0x00007f55a7773140] [info]    omega: elapsed [ms] 26152, prod 1000 act / 1005 exp, cons 1000 act / 523 exp
+--elf async --inms 26 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:42:52.833105] [0x00007f23d44ca140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:43:18.913800] [0x00007f23d44c6640] [info]    producer end with 1000
+[2022-02-11 19:43:19.014756] [0x00007f23d3cc5640] [info]    consumer 0 end with 1000, max tasks ever 9
+[2022-02-11 19:43:19.014849] [0x00007f23d44ca140] [info]    omega: elapsed [ms] 26181, prod 1000 act / 1006 exp, cons 1000 act / 261 exp
+--elf async --inms 26 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:43:19.016874] [0x00007f8fc4dd3140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 19:43:45.093588] [0x00007f8fc4dcf640] [info]    producer end with 1000
+[2022-02-11 19:43:45.244007] [0x00007f8fc45ce640] [info]    consumer 0 end with 1000, max tasks ever 13
+[2022-02-11 19:43:45.244073] [0x00007f8fc4dd3140] [info]    omega: elapsed [ms] 26227, prod 1000 act / 1008 exp, cons 1000 act / 174 exp
+--elf async --inms 26 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:43:45.246051] [0x00007fc2212fc140] [info]    alpha: jobs 1, blobs 1000, prod 26 [ms] -> 38 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 19:44:11.315616] [0x00007fc2212f8640] [info]    producer end with 1000
+[2022-02-11 19:44:11.516520] [0x00007fc220af7640] [info]    consumer 0 end with 1000, max tasks ever 16
+[2022-02-11 19:44:11.516589] [0x00007fc2212fc140] [info]    omega: elapsed [ms] 26270, prod 1000 act / 1010 exp, cons 1000 act / 131 exp
+--elf async --inms 34 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:44:11.518649] [0x00007fcf210e2140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:44:45.626198] [0x00007fcf210de640] [info]    producer end with 1000
+[2022-02-11 19:44:45.677153] [0x00007fcf208dd640] [info]    consumer 0 end with 1000, max tasks ever 5
+[2022-02-11 19:44:45.677265] [0x00007fcf210e2140] [info]    omega: elapsed [ms] 34158, prod 1000 act / 1004 exp, cons 1000 act / 683 exp
+--elf async --inms 34 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:44:45.679424] [0x00007f467da56140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:45:19.772536] [0x00007f467da52640] [info]    producer end with 1000
+[2022-02-11 19:45:19.872684] [0x00007f467d251640] [info]    consumer 0 end with 1000, max tasks ever 5
+[2022-02-11 19:45:19.872753] [0x00007f467da56140] [info]    omega: elapsed [ms] 34193, prod 1000 act / 1005 exp, cons 1000 act / 341 exp
+--elf async --inms 34 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:45:19.875013] [0x00007fbbb2ed7140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 19:45:53.954501] [0x00007fbbb2ed3640] [info]    producer end with 1000
+[2022-02-11 19:45:54.105599] [0x00007fbbb26d2640] [info]    consumer 0 end with 1000, max tasks ever 10
+[2022-02-11 19:45:54.105702] [0x00007fbbb2ed7140] [info]    omega: elapsed [ms] 34230, prod 1000 act / 1006 exp, cons 1000 act / 228 exp
+--elf async --inms 34 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:45:54.107883] [0x00007f0424e47140] [info]    alpha: jobs 1, blobs 1000, prod 34 [ms] -> 29 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 19:46:28.185766] [0x00007f0424e43640] [info]    producer end with 1000
+[2022-02-11 19:46:28.386200] [0x00007f0424642640] [info]    consumer 0 end with 1000, max tasks ever 13
+[2022-02-11 19:46:28.386308] [0x00007f0424e47140] [info]    omega: elapsed [ms] 34278, prod 1000 act / 1008 exp, cons 1000 act / 171 exp
+--elf async --inms 43 --outms 50 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:46:28.388499] [0x00007f58dee90140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 50 [ms] -> 20 [u/s], expected execution time [s] 50
+[2022-02-11 19:47:11.495502] [0x00007f58dee8c640] [info]    producer end with 1000
+[2022-02-11 19:47:11.545849] [0x00007f58de68b640] [info]    consumer 0 end with 1000, max tasks ever 3
+[2022-02-11 19:47:11.545920] [0x00007f58dee90140] [info]    omega: elapsed [ms] 43157, prod 1000 act / 1003 exp, cons 1000 act / 863 exp
+--elf async --inms 43 --outms 100 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:47:11.548204] [0x00007fd31aa28140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 100 [ms] -> 10 [u/s], expected execution time [s] 100
+[2022-02-11 19:47:54.648086] [0x00007fd31aa24640] [info]    producer end with 1000
+[2022-02-11 19:47:54.748684] [0x00007fd31a223640] [info]    consumer 0 end with 1000, max tasks ever 3
+[2022-02-11 19:47:54.748750] [0x00007fd31aa28140] [info]    omega: elapsed [ms] 43200, prod 1000 act / 1004 exp, cons 1000 act / 432 exp
+--elf async --inms 43 --outms 150 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:47:54.750946] [0x00007f3cd70de140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 150 [ms] -> 6 [u/s], expected execution time [s] 166
+[2022-02-11 19:48:37.832565] [0x00007f3cd70da640] [info]    producer end with 1000
+[2022-02-11 19:48:37.983052] [0x00007f3cd68d9640] [info]    consumer 0 end with 1000, max tasks ever 8
+[2022-02-11 19:48:37.983138] [0x00007f3cd70de140] [info]    omega: elapsed [ms] 43232, prod 1000 act / 1005 exp, cons 1000 act / 288 exp
+--elf async --inms 43 --outms 200 --njobs 1 --debug 0 --nblobs 1000
+[2022-02-11 19:48:37.985259] [0x00007fa7adf58140] [info]    alpha: jobs 1, blobs 1000, prod 43 [ms] -> 23 [u/s], cons 200 [ms] -> 5 [u/s], expected execution time [s] 200
+[2022-02-11 19:49:21.064702] [0x00007fa7adf54640] [info]    producer end with 1000
+[2022-02-11 19:49:21.265673] [0x00007fa7ad753640] [info]    consumer 0 end with 1000, max tasks ever 8
+[2022-02-11 19:49:21.265783] [0x00007fa7adf58140] [info]    omega: elapsed [ms] 43280, prod 1000 act / 1006 exp, cons 1000 act / 216 exp
