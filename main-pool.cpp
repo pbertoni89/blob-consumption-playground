@@ -3,41 +3,27 @@
 #include "utils.h"
 
 
-class Driver final : public IDriver
+class Driver final :
+	public IDriver<ConcurrentQueue<std::pair<std::shared_ptr<Blob>, t_tp>>>
 {
 protected:
-	ConcurrentQueue<std::pair<std::shared_ptr<Blob>, t_tp>> m_qSpBlobs;
-
-	[[nodiscard]] size_t size() const override { return m_qSpBlobs.size(); }
-
-	[[nodiscard]] bool empty() const override { return m_qSpBlobs.empty(); }
-
 	void _producer(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
 	{
 		const auto t0 = tic();
-
-		m_qSpBlobs.push({std::make_shared<Blob>(prod()), t0});
+		m_q.push({std::make_shared<Blob>(prod()), t0});
 	}
 
-	void _consumer(const int idx, const int iOutgoingMs, size_t & uMaxTasksEver) override
+	void _consumer(const int idx, const int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) override
 	{
-		if (m_qSpBlobs.empty())
+		const bool CONSUME = not m_q.empty();
+		if (CONSUME)
 		{
-			// std::this_thread::yield();  // deprecated: it may flood the CPU with events
-			if (bDebug)
-				LOG(trace) << "consumer " << idx << " empty";
-			std::this_thread::sleep_for(1ms);
+			auto [spBlob, t0] = m_q.pop();
+			const auto rv = work(spBlob, t0, iOutgoingMs);
+			consumer_success(idx, rv, uMaxTaskEver, uMiss);
 		}
 		else
-		{
-			auto [spBlob, t0] = m_qSpBlobs.pop();
-			const auto rv = work(spBlob, t0, iOutgoingMs);
-
-			iWorkCons ++;
-			uMaxTasksEver = std::max(m_qSpBlobs.size(), uMaxTasksEver);
-			if (bDebug)
-				LOG(info) << "consumer " << idx << " work " << iWorkCons << ", rv " << rv;
-		}
+			consumer_miss(idx, uMaxMissEver, uMiss);
 	}
 };
 

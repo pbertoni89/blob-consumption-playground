@@ -65,7 +65,7 @@ F for_each(Container & c, F f)
 
 
 // global semaphore so that lambdas don't have to capture it
-Sem thread_limiter(4);
+// Sem thread_limiter(4);
 
 
 template <typename V, typename U>
@@ -73,6 +73,8 @@ void demo(const U trials)
 {
 	std::vector<V> v_tInp(30);
 	std::vector<std::future<V>> v_futOut;
+
+	Sem thread_limiter(4);
 
 	for_each(v_tInp, [] (U i, V & e)
 	{
@@ -83,9 +85,9 @@ void demo(const U trials)
 		std::cout << " " << v;
 	std::cout << std::endl;
 
-	for_each(v_tInp, [&v_futOut] (U i, V e)
+	for_each(v_tInp, [&v_futOut, &thread_limiter] (U i, V e)
 	{
-		v_futOut.push_back(std::async(std::launch::async, [] (U task, V n) -> V {
+		v_futOut.push_back(std::async(std::launch::async, [&thread_limiter] (U task, V n) -> V {
 			SemWaiterNotifier w(thread_limiter);
 			std::printf("Start %d\n", task);
 			const auto res = fib(n);
@@ -103,19 +105,18 @@ void demo(const U trials)
 }
 
 
-class Driver final : public IDriver
+#if 0
+class Driver final : public IDriver<std::queue<int>>
 {
 protected:
-	[[nodiscard]] size_t size() const override { return 0; }
-
-	[[nodiscard]] bool empty() const override { return true; }
 
 	void _producer(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
 	{}
 
-	void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver) override
+	void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver, uint & uMiss) override
 	{}
 };
+#endif
 
 
 int main(int argc, char ** argv)
@@ -123,9 +124,11 @@ int main(int argc, char ** argv)
 
 	demo<int>(100);
 
+#if 0
 	auto vm = arg_parse(argc, argv);
 	// NJOBS forced with 1
 	Driver driver;
-	// driver.drive(1, vm["nblobs"].as<int>(), vm["inms"].as<int>(), vm["outms"].as<int>());
+	driver.drive(1, vm["nblobs"].as<int>(), vm["inms"].as<int>(), vm["outms"].as<int>());
+#endif
 	return iExitValue;
 }

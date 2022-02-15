@@ -44,11 +44,13 @@ int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoin
 }
 
 
-void my_handler(const int s)
+void my_signal_handler(const int s)
 {
-	std::cerr << "\n";
+	std::cerr << "\ncaught signal " << s << std::endl;
 	// if (bDebug)
-		LOG(fatal) << "caught sig " << s;
+		LOG(fatal) << "caught signal " << s;
+	boost::log::core::get()->flush();
+	std::cerr << "\nlogs flushed" << std::endl;
 	bWork = false;
 	iExitValue = 1;
 }
@@ -78,7 +80,8 @@ void omega(const int nJobs, const int nBlobs, const int iIncomingMs, const int i
 	const auto ALPHA_OMEGA_MS = tictoc<std::chrono::milliseconds>(tpAlpha);
 	const auto EXP_RATE_INC = ALPHA_OMEGA_MS / iIncomingMs,
 		EXP_RATE_OUT = (ALPHA_OMEGA_MS / iOutgoingMs) * nJobs;
-	LOG(info) << "omega: elapsed [ms] " << ALPHA_OMEGA_MS << ", prod " << iWorkProd << " act / " << EXP_RATE_INC << " exp, "
+	LOG(info) << "omega: elapsed [s] " << (int) (ALPHA_OMEGA_MS / 1000)
+		<< ", [ms] prod " << iWorkProd << " act / " << EXP_RATE_INC << " exp, "
 		<< "cons " << iWorkCons << " act / " << EXP_RATE_OUT << " exp";
 }
 
@@ -117,10 +120,11 @@ boost::program_options::variables_map arg_parse(int argc, char ** argv)
 	bDebug = vm["debug"].as<bool>();
 
 	struct sigaction sigIntHandler{};
-	sigIntHandler.sa_handler = my_handler;
+	sigIntHandler.sa_handler = my_signal_handler;
 	sigemptyset(&sigIntHandler.sa_mask);
 	sigIntHandler.sa_flags = 0;
 	sigaction(SIGINT, &sigIntHandler, nullptr);
+	sigaction(SIGTERM, &sigIntHandler, nullptr);
 
 	return vm;
 }

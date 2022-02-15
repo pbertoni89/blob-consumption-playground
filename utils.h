@@ -52,7 +52,7 @@ T vector_sum(const std::vector<T> & v)
 }
 
 
-constexpr size_t SZ_DATA = 1024;
+constexpr size_t SZ_DATA = 1024 * 1024;
 
 
 class Inferrable
@@ -100,7 +100,7 @@ template <typename T>
 }
 
 
-int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoingMs);
+int work(const std::shared_ptr<Blob> & spBlob, t_tp t0, int iOutgoingMs);
 
 
 template <typename T>
@@ -214,13 +214,47 @@ boost::program_options::variables_map arg_parse(int argc, char ** argv);
 [[nodiscard]] bool has_work(std::atomic<int> & ai) noexcept;
 
 
+template <typename Q>
 class IDriver
 {
 protected:
+	Q m_q;
+
 	virtual void _producer(Producer & prod, int iIncomingMs, int iOutgoingMs) = 0;
-	virtual void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver) = 0;
-	[[nodiscard]] virtual size_t size() const = 0;
-	[[nodiscard]] virtual bool empty() const = 0;
+	virtual void _consumer(int idx, int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) = 0;
+	[[nodiscard]] decltype(auto) size() const { return m_q.size(); }
+	[[nodiscard]] decltype(auto) empty() const { return m_q.empty(); }
+
+	inline void consumer_success(const int idx, const int rv, size_t & uMaxTaskEver, uint & uMiss)
+	{
+		iWorkCons ++;
+		uMaxTaskEver = std::max(m_q.size(), uMaxTaskEver);
+		uMiss = 0;
+		if (bDebug)
+			LOG(info) << "consumer " << idx << " work " << iWorkCons << ", rv " << rv;
+	}
+
+	inline void consumer_miss(const int idx, uint & uMaxMissEver, uint & uMiss)
+	{
+		constexpr uint MISS_BEFORE_THROW = 1e5, MISS_LOG = 5e3;  // one second at least bc 1us
+		uMaxMissEver = std::max(uMaxMissEver, ++uMiss);
+		if (uMiss >= MISS_BEFORE_THROW)
+			throw std::runtime_error("too many consumer miss");
+
+		if (bDebug)
+		{
+			LOG(trace) << "consumer " << idx << " miss: " << uMiss;
+			std::this_thread::sleep_for(1ms);  // slow down log flood
+		}
+		else
+		{
+			if (uMiss % MISS_LOG == 0)
+				LOG(warning) << "consumer " << idx << " miss: " << uMiss;
+			std::this_thread::sleep_for(1ms);
+			// std::this_thread::sleep_for(1us);  // FIXME starvation ??
+			// std::this_thread::yield();         // FIXME starvation ???
+		}
+	}
 
 public:
 	void th_produce(const int iIncomingMs, const int iOutgoingMs)
@@ -242,13 +276,14 @@ public:
 
 	void th_consume(const int idx, const int iOutgoingMs)
 	{
-		size_t uMaxTasksEver = 0;
+		size_t uMaxTaskEver = 0;
+		uint uMaxMissEver = 0, uMiss = 0;
 
 		while (has_work(iWorkCons) or not empty())
 		{
-			_consumer(idx, iOutgoingMs, uMaxTasksEver);
+			_consumer(idx, iOutgoingMs, uMaxTaskEver, uMaxMissEver, uMiss);
 		}
-		LOG(info) << "consumer " << idx << " end with " << iWorkCons << ", max tasks ever " << uMaxTasksEver;
+		LOG(info) << "consumer " << idx << " end with " << iWorkCons << ", MaxTaskEver " << uMaxTaskEver << ", MaxMissEver " << uMaxMissEver;
 	}
 
 	void drive(const int njobs, const int nblobs, const int in_ms, const int out_ms)

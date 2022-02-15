@@ -5,45 +5,29 @@
 #include "utils.h"
 
 
-class Driver final : public IDriver
+class Driver final :
+	public IDriver<std::queue<std::future<int>>>
 {
 protected:
-	std::queue<std::future<int>> m_qProcessingFutures;
-
-	[[nodiscard]] size_t size() const override { return m_qProcessingFutures.size(); }
-
-	[[nodiscard]] bool empty() const override { return m_qProcessingFutures.empty(); }
-
 	void _producer(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
 	{
 		const auto t0 = tic();
-		auto spBlobIncoming = std::make_shared<Blob>(prod());
-
-		m_qProcessingFutures.emplace(std::async(std::launch::async, work, spBlobIncoming, t0, iOutgoingMs));
+		m_q.emplace(std::async(std::launch::async, work, std::make_shared<Blob>(prod()), t0, iOutgoingMs));
 	}
 
-	void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver) override
+	void _consumer(const int idx, const int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) override
 	{
-		const bool CONSUME = (not m_qProcessingFutures.empty()
-							  and m_qProcessingFutures.front().wait_for(std::chrono::seconds(0)) == std::future_status::ready);
+		const bool CONSUME = (not m_q.empty()
+							  and m_q.front().wait_for(std::chrono::seconds(0)) == std::future_status::ready);
 
 		if (CONSUME)
 		{
-			const auto rv = m_qProcessingFutures.front().get();
-			m_qProcessingFutures.pop();
-
-			iWorkCons ++;
-			uMaxTasksEver = std::max(m_qProcessingFutures.size(), uMaxTasksEver);
-			if (bDebug)
-				LOG(info) << "consumer " << idx << " work " << iWorkCons << ", rv " << rv;
+			const auto rv = m_q.front().get();
+			m_q.pop();
+			consumer_success(idx, rv, uMaxTaskEver, uMiss);
 		}
 		else
-		{
-			// std::this_thread::yield();  // deprecated: it may flood the CPU with events
-			if (bDebug)
-				LOG(trace) << "consumer " << idx << " empty";
-			std::this_thread::sleep_for(1ms);
-		}
+			consumer_miss(idx, uMaxMissEver, uMiss);
 	}
 };
 

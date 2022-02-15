@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Run me with ./tester.sh | tee ./results.txt 2>&1
+# Run me with
+# mkdir -p ./data-${HOSTNAME} && ./tester.sh | tee ./data-${HOSTNAME}/results.txt 2>&1
 
 function sigint_handler() {
 	{ set +x ;} 2> /dev/null
@@ -11,20 +12,42 @@ function sigint_handler() {
 
 nCores=$(grep -c ^processor /proc/cpuinfo)
 myDebug=0
-myBlobs=1000
+myBrief=y
+unset myBrief  # comment to make simulation shorter
+
+if [[ -n ${myBrief} ]]; then
+	arrIms=(34)
+	arrOms=(200)
+	arrJobs=(1 $((nCores)))
+else
+	arrBlobs=(100 1000)
+	arrIms=(26 34 43)
+	arrOms=(50 100 150 200)
+	arrJobs=(1 $((nCores / 4)) $((nCores / 2)) $((nCores)))
+fi
+
+numTestsPool=$(( ${#arrBlobs[@]} * ${#arrIms[@]} * ${#arrOms[@]} * ${#arrJobs[@]} ))
+numTestsAsnc=$(( ${#arrBlobs[@]} * ${#arrIms[@]} * ${#arrOms[@]} * 1 ))
+numTests=$(( numTestsPool + numTestsAsnc ))
+idxTest=0
 
 for myElf in pool async; do
 	# shellcheck disable=SC2043
-	for myIms in 26 34 43; do
-		for myOms in 50 100 150 200; do
-			for myJobs in 1 $((nCores / 4)) $((nCores / 2)) $((nCores)); do
-				if [[ ${myJobs} -gt 1 && ${myElf} == "async" ]]; then break; fi
-
-				echo "--elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"
-				if ! time cmake-build-release/${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}; then
-					echo "${0} caught sigint inside elf, tear down everything"
-					exit 2
-				fi
+	for myBlobs in "${arrBlobs[@]}"; do
+		for myIms in "${arrIms[@]}"; do
+			for myOms in "${arrOms[@]}"; do
+				for myJobs in "${arrJobs[@]}"; do
+					# skip useless runs, will be fixed during post-processing
+					if [[ ${myJobs} -gt 1 && ${myElf} == "async" ]]; then break; fi
+					idxTest=$(( idxTest + 1 ))
+					# ensure sudden flush with >&2 ? AVOID
+					echo "test(${idxTest}/${numTests}) --elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"
+					# do the actual work
+					if ! time cmake-build-release/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"; then
+						echo "${0} caught error inside elf, tear down everything"
+						exit 2
+					fi
+				done
 			done
 		done
 	done
