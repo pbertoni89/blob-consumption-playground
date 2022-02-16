@@ -11,19 +11,36 @@ function sigint_handler() {
 # trap sigint_handler INT  # otherwise how could we trap it inside processes
 
 nCores=$(grep -c ^processor /proc/cpuinfo)
-myDebug=0
-myBrief=y
-unset myBrief  # comment to make simulation shorter
+
+while getopts ":bdh:" opt; do
+	case "${opt}" in
+		b)
+			echo "will be brief"
+			myBrief=y ;;
+		d)
+			echo "will debug"
+			myDebug=y ;;
+		h)
+			echo "usage: ${0} [-d debug] [-b brief]" && exit 0 ;;
+		*)
+			usage && exit 1 ;;
+	esac
+done
+shift $((OPTIND-1))
+
 
 if [[ -n ${myBrief} ]]; then
+	myDebug=1
 	arrIms=(34)
 	arrOms=(200)
+	arrBlobs=(10)
 	arrJobs=(1 $((nCores)))
 else
-	arrBlobs=(100 1000)
+	myDebug=0
 	arrIms=(26 34 43)
 	arrOms=(50 100 150 200)
-	arrJobs=(1 $((nCores / 4)) $((nCores / 2)) $((nCores)))
+	arrBlobs=(100 1000)
+	arrJobs=(1 $((nCores / 2)) $((nCores)))
 fi
 
 numTestsPool=$(( ${#arrBlobs[@]} * ${#arrIms[@]} * ${#arrOms[@]} * ${#arrJobs[@]} ))
@@ -43,9 +60,13 @@ for myElf in pool async; do
 					# ensure sudden flush with >&2 ? AVOID
 					echo "test(${idxTest}/${numTests}) --elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"
 					# do the actual work
-					if ! time cmake-build-release/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"; then
-						echo "${0} caught error inside elf, tear down everything"
-						exit 2
+					if [[ -n ${myDebug} ]]; then
+						gdb -q -ex r --args cmake-build-debug/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"
+					else
+						if ! time cmake-build-release/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"; then
+							echo "${0} caught error inside elf, tear down everything"
+							exit 2
+						fi
 					fi
 				done
 			done

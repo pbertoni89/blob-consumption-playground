@@ -15,15 +15,11 @@ protected:
 
 	void _consumer(const int idx, const int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) override
 	{
-		const bool CONSUME = not m_q.empty();
-		if (CONSUME)
-		{
-			auto [spBlob, t0] = m_q.pop();
-			const auto rv = work(spBlob, t0, iOutgoingMs);
-			consumer_success(idx, rv, uMaxTaskEver, uMiss);
-		}
-		else
-			consumer_miss(idx, uMaxMissEver, uMiss);
+		// we don't need to query for queue emptiness: already handled inside pop()
+		// if (m_q.empty()) consumer_miss(idx, uMaxMissEver, uMiss) else {
+		auto [spBlob, t0] = m_q.pop();
+		const auto rv = work(spBlob, t0, iOutgoingMs);
+		consumer_success(idx, rv, uMaxTaskEver, uMiss);
 	}
 };
 

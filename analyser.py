@@ -1,5 +1,5 @@
-#!/user/bin/env python3
-import typing
+#!/usr/bin/python3-xnext
+# /usr/bin/env python3
 
 import pandas
 import os
@@ -8,25 +8,62 @@ import numpy
 from matplotlib import pyplot as plt
 
 
-def _scatter_color(df: pandas.DataFrame, xcol: str, ycol: str, cat_col: typing.Optional[str] = None, ax_curr=None,
-                   title=None) -> None:
+elfs, mrks = ['pool', 'async'], ['x', '+']
 
-    if cat_col is None:
-        c = cat_col
+
+def _scatter_colour_elf(df: pandas.DataFrame, elf: str, marker: str, xcol: str, ycol: str, cat_col: str, ax_curr):
+    df_e = df.loc[df['i_elf'] == elf]
+    categories = numpy.unique(df_e[cat_col])
+    ncat = len(categories)
+    # colours_f = numpy.linspace(0, 1, ncat)
+    colours_f = list('bgrcmk')
+    if len(colours_f) < ncat:
+        raise NotImplementedError('cycle on categories')  # TODO
     else:
-        categories = numpy.unique(df[cat_col])
-        colors = numpy.linspace(0, 1, len(categories))
-        colordict = dict(zip(categories, colors))
-        df['Color'] = df[cat_col].apply(lambda x: colordict[x])
-        c = df.Color
-    ax_curr.scatter(df[xcol], df[ycol], c=c)
+        colours_f = colours_f[:ncat]
+    colour_d = dict(zip(categories, colours_f))
+    # ser_colour = df_e[cat_col].apply(lambda x: colour_d[x])
+
+    for cat, col in zip(categories, colours_f):
+        df_e_j = df_e.loc[df_e['i_n_jobs'] == cat]
+        # ser_this_col = ser_colour.loc[ser_colour == col]
+        # print(f'elf {elf}, marker {marker}, cat {cat}, col {col}, ser {ser_this_col}\n')
+        # ax_curr.scatter(df_e_j[xcol], df_e_j[ycol], c=ser_this_col, marker=marker, label=cat)
+        ax_curr.scatter(df_e_j[xcol], df_e_j[ycol], c=colour_d[cat], marker=marker, label=cat)
+
+
+def _scatter_colour(df: pandas.DataFrame, xcol: str, ycol: str, cat_col: str, ax_curr, title=None) -> None:
+    for elf, marker in zip(elfs, mrks):
+        _scatter_colour_elf(df, elf, marker, xcol, ycol, cat_col, ax_curr)
     plt.xlabel(xcol)
     plt.ylabel(ycol)
-    if title is not None:
-        plt.title(title)
+    plt.legend()
+    title = '' if title is None else title
+    plt.title(title)
 
 
-def _parse_results(results_dir: str) -> pandas.DataFrame:
+def _plot(results_dir: str, df: pandas.DataFrame) -> None:
+    fn_out = os.path.join(results_dir, 'analysis')
+    print(df.to_string())
+    df.to_csv(fn_out + '.csv')
+
+    fig, ax = plt.subplots(nrows=2, ncols=2)
+    sup_title = os.path.split(results_dir)[-1] + '. ' + ', '.join([f'{e}_{m}' for e, m in zip(elfs, mrks)])
+    fig.suptitle(sup_title)
+    ax_curr = plt.subplot(2, 2, 1)
+    _scatter_colour(df, xcol='po_extra_time_s', ycol='pi_load', cat_col='i_n_jobs', ax_curr=ax_curr)
+    ax_curr = plt.subplot(2, 2, 2)
+    _scatter_colour(df, xcol='o_act_time_s', ycol='o_exp_time_s', cat_col='i_n_jobs', ax_curr=ax_curr)
+    ax_curr = plt.subplot(2, 2, 3)
+    # _scatter_colour(df, xcol='po_extra_time_s', ycol='o_max_miss', cat_col='i_n_jobs', ax_curr=ax_curr)
+    _scatter_colour(df, xcol='po_extra_time_s', ycol='o_max_task', cat_col='i_n_jobs', ax_curr=ax_curr)
+    ax_curr = plt.subplot(2, 2, 4)
+    _scatter_colour(df, xcol='o_max_task', ycol='pi_load', cat_col='i_n_jobs', ax_curr=ax_curr)
+
+    plt.savefig(fn_out + '.png')
+
+
+def _parse_results(results_dir: str, only_longest_run: bool) -> pandas.DataFrame:
     re_cmd = re.compile(r'.*--elf (\w+) --inms (\d+) --outms (\d+) --njobs (\d+) --debug \d --nblobs (\d+)')
     re_alpha = re.compile(r'.*alpha.*-> (\d+).*-> (\d+).*\[s] (\d+)')
     re_task_miss = re.compile(r'.*MaxTaskEver (\d+).*MaxMissEver (\d+)')
@@ -64,6 +101,11 @@ def _parse_results(results_dir: str) -> pandas.DataFrame:
                 # print(f'appending {row}')
                 df = df.append(row, ignore_index=True)
                 continue
+
+    if only_longest_run:
+        max_nblobs = df['i_n_blobs'].max()
+        print(f'********************* only the longest run: {max_nblobs}')
+        df = df[df['i_n_blobs'] == max_nblobs]
     return df
 
 
@@ -74,10 +116,6 @@ def _postprocessing(df: pandas.DataFrame) -> pandas.DataFrame:
     df = df.astype(dtypes)
 
     n_jobs_max = df['i_n_jobs'].max()  # shall be equal to NUM_CORES
-
-    # Strange copy behaviour I don't have so much time... https://stackoverflow.com/questions/23296282
-    # df_p = df.loc[df['i_elf'] == 'pool']
-    # df_a = df.loc[df['i_elf'] == 'async']
 
     def check_async_multicore(fixed: bool):
         df_async = df.loc[df['i_elf'] == 'async']
@@ -105,37 +143,17 @@ def _postprocessing(df: pandas.DataFrame) -> pandas.DataFrame:
 
     check_async_multicore(True)
 
-    df['p_extra_time_s'] = (df['o_act_time_s'] - df['o_exp_time_s']).astype(int)
+    df['po_extra_time_s'] = (df['o_act_time_s'] - df['o_exp_time_s']).astype(int)
 
-    df['p_load'] = (df['i_out_ms'] / df['i_n_jobs']) / df['i_in_ms']
+    df['pi_load'] = (df['i_out_ms'] / df['i_n_jobs']) / df['i_in_ms']
 
     df = df.astype(dtypes)  # re-cast after any edit and before dumping
     return df
 
 
-def _plot(results_dir: str, df: pandas.DataFrame) -> None:
-
-    fn_out = os.path.join(results_dir, 'analysis')
-    print(df.to_string())
-    df.to_csv(fn_out + '.csv')
-
-    fig, ax = plt.subplots(nrows=2, ncols=2)
-    fig.suptitle(os.path.split(results_dir)[-1])
-    ax_curr = plt.subplot(2, 2, 1)
-    _scatter_color(df, xcol='p_extra_time_s', ycol='p_load', cat_col='i_elf', ax_curr=ax_curr, title='')
-    ax_curr = plt.subplot(2, 2, 2)
-    _scatter_color(df, xcol='o_act_time_s', ycol='o_exp_time_s', cat_col='i_elf', ax_curr=ax_curr)
-    ax_curr = plt.subplot(2, 2, 3)
-    _scatter_color(df, xcol='i_n_jobs', ycol='p_extra_time_s', cat_col='i_elf', ax_curr=ax_curr)
-    ax_curr = plt.subplot(2, 2, 4)
-    _scatter_color(df, xcol='o_max_task', ycol='p_load', cat_col='i_elf', ax_curr=ax_curr)
-
-    plt.savefig(fn_out + '.png')
-
-
 def main(results_dir: str):
     print(f'running for data directory {results_dir}')
-    df = _parse_results(results_dir)
+    df = _parse_results(results_dir, only_longest_run=True)
     df = _postprocessing(df)
     _plot(results_dir, df)
 

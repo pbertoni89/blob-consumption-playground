@@ -74,7 +74,17 @@ class Blob : public Inferrable
 {
 	std::vector<int> m_b;
 public:
-	explicit Blob(const int _id) : Inferrable(_id), m_b(SZ_DATA * 2) {}
+	explicit Blob(const int _id) : Inferrable(_id), m_b(SZ_DATA * 2)
+	{
+		if (bDebug)
+			LOG(trace) << "ctor blob " << _id;
+	}
+
+	~ Blob()
+	{
+		if (bDebug)
+			LOG(trace) << "dtor blob " << m_id;
+	}
 };
 
 
