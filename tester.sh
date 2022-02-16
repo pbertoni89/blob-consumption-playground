@@ -12,16 +12,19 @@ function sigint_handler() {
 
 nCores=$(grep -c ^processor /proc/cpuinfo)
 
-while getopts ":bdh:" opt; do
+unset myBrief
+unset myGdb
+
+while getopts ":bgh:" opt; do
 	case "${opt}" in
 		b)
-			echo "will be brief"
+			echo "will brief"
 			myBrief=y ;;
-		d)
-			echo "will debug"
-			myDebug=y ;;
+		g)
+			echo "will gdb"
+			myGdb=y ;;
 		h)
-			echo "usage: ${0} [-d debug] [-b brief]" && exit 0 ;;
+			echo "usage: ${0} [-g gdb] [-b brief]" && exit 0 ;;
 		*)
 			usage && exit 1 ;;
 	esac
@@ -60,7 +63,7 @@ for myElf in pool async; do
 					# ensure sudden flush with >&2 ? AVOID
 					echo "test(${idxTest}/${numTests}) --elf ${myElf} --inms ${myIms} --outms ${myOms} --njobs ${myJobs} --debug ${myDebug} --nblobs ${myBlobs}"
 					# do the actual work
-					if [[ -n ${myDebug} ]]; then
+					if [[ -n ${myGdb} ]]; then
 						gdb -q -ex r --args cmake-build-debug/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"
 					else
 						if ! time cmake-build-release/${myElf} --inms "${myIms}" --outms "${myOms}" --njobs "${myJobs}" --debug ${myDebug} --nblobs "${myBlobs}"; then
