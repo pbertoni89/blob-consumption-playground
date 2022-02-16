@@ -7,6 +7,7 @@
 #include <string>
 #include <thread>
 #include <memory>
+#include <future>
 #include <condition_variable>
 
 #include <boost/program_options.hpp>
@@ -43,16 +44,8 @@ tictoc(t_tp t0) noexcept
 }
 
 
-template<typename T>
-[[nodiscard]]
-T vector_sum(const std::vector<T> & v)
-{
-	const T sum = std::accumulate(v.begin(), v.end(), 0.0);
-	return sum;
-}
-
-
-constexpr size_t SZ_DATA = 1024 * 1024;
+// constexpr size_t SZ_DATA = 1024 * 1024;   // SEEMS REALLY HEAVY
+constexpr size_t SZ_DATA = 128;
 
 
 class Inferrable
@@ -65,7 +58,7 @@ public:
 
 	[[nodiscard]] decltype(auto) sum() const noexcept
 	{
-		return vector_sum(m_i);
+		return std::accumulate(m_i.begin(), m_i.end(), 0.0);
 	}
 };
 
@@ -113,115 +106,13 @@ template <typename T>
 int work(const std::shared_ptr<Blob> & spBlob, t_tp t0, int iOutgoingMs);
 
 
-template <typename T>
-class ConcurrentQueue
-{
-	const size_t _SZ_MAX, _SZ_WRN;
-	const bool _STRICT;
-	const std::string _NICK;
-
-	mutable std::mutex m_mu;
-	std::queue<T> m_qu;
-	std::condition_variable m_cv;
-
-	inline void _roll_if_needed()
-	{
-		if (_SZ_WRN > 0 and m_qu.size() >= _SZ_WRN)
-			LOG(warning) << "ConcurrentQueue " << _NICK << " overlap warn: " << m_qu.size() << " >= " << _SZ_WRN << ", max " << _SZ_MAX;
-
-		while (_SZ_MAX > 0 and m_qu.size() >= _SZ_MAX)
-		{
-			if (_STRICT)
-			{
-				LOG(error) << "ConcurrentQueue " << _NICK << " overlap: " << m_qu.size() << " >= " << _SZ_MAX;
-				throw std::runtime_error("strict ConcurrentQueue full");
-			}
-			else
-			{
-				const auto dropped = m_qu.front();
-				// `<< dropped` would require an operator overload. I'm pretty sure enable_if could help here, but who cares
-				LOG(error) << "ConcurrentQueue " << _NICK << " overlap drop: " << m_qu.size() << " >= " << _SZ_MAX;
-				m_qu.pop();
-			}
-		}
-	}
-
-public:
-	explicit ConcurrentQueue(const size_t size_max = 0, const size_t size_warn = 0, const bool strict = false, const std::string & nickname = "") :
-		_SZ_MAX(size_max),
-		_SZ_WRN(size_warn > 0
-				? std::min(size_max, size_warn)
-				: std::floor(0.9 * float(size_max))),
-		_STRICT(strict and size_max > 0),
-		_NICK(nickname)
-	{}
-
-	[[nodiscard]] T pop()
-	{
-		std::unique_lock<std::mutex> lock(m_mu);
-		while (m_qu.empty())
-		{
-			m_cv.wait(lock);
-		}
-		const auto item = m_qu.front();
-		m_qu.pop();
-		return item;
-	}
-
-	void pop(T & item)
-	{
-		std::unique_lock<std::mutex> lock(m_mu);
-		while (m_qu.empty())
-		{
-			m_cv.wait(lock);
-		}
-		item = m_qu.front();
-		m_qu.pop();
-	}
-
-	void push(const T & item)
-	{
-		{
-			std::unique_lock<std::mutex> lock(m_mu);
-			_roll_if_needed();
-			m_qu.push(item);
-		}
-		m_cv.notify_one();
-	}
-
-	template <typename... Args>
-	void push(Args && ... args)
-	{
-		{
-			std::unique_lock<std::mutex> lock(m_mu);
-			_roll_if_needed();
-			m_qu.emplace(std::forward<Args>(args)...);
-		}
-		m_cv.notify_one();
-	}
-
-	void push(T && item)
-	{
-		{
-			std::unique_lock<std::mutex> lock(m_mu);
-			_roll_if_needed();
-			m_qu.push(std::move(item));
-		}
-		m_cv.notify_one();
-	}
-
-	[[nodiscard]] size_t size() const { std::unique_lock<std::mutex> lock(m_mu); return m_qu.size(); }
-	[[nodiscard]] bool empty() const { std::unique_lock<std::mutex> lock(m_mu); return m_qu.empty(); }
-};
-
-
 [[nodiscard]] t_tp alpha(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs);
 void omega(int njobs, int nblobs, int iIncomingMs, int iOutgoingMs, t_tp tpAlpha);
 
 boost::program_options::variables_map arg_parse(int argc, char ** argv);
 
 
-[[nodiscard]] bool has_work(std::atomic<int> & ai) noexcept;
+[[nodiscard]] bool has_work(const char * const reason, std::atomic<int> & ai) noexcept;
 
 
 template <typename Q>
@@ -230,8 +121,8 @@ class IDriver
 protected:
 	Q m_q;
 
-	virtual void _producer(Producer & prod, int iIncomingMs, int iOutgoingMs) = 0;
-	virtual void _consumer(int idx, int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) = 0;
+	virtual void _produce(Producer & prod, int iIncomingMs, int iOutgoingMs) = 0;
+	virtual void _consume(int idx, int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) = 0;
 	[[nodiscard]] decltype(auto) size() const { return m_q.size(); }
 	[[nodiscard]] decltype(auto) empty() const { return m_q.empty(); }
 
@@ -253,7 +144,7 @@ protected:
 
 		if (bDebug)
 		{
-			LOG(trace) << "consumer " << idx << " miss: " << uMiss;
+			// TODO LOG(trace) << "consumer " << idx << " miss: " << uMiss;
 			std::this_thread::sleep_for(1ms);  // slow down log flood
 		}
 		else
@@ -271,7 +162,7 @@ public:
 	{
 		Producer prod;
 
-		while (has_work(iWorkProd))
+		while (has_work("producer", iWorkProd))
 		{
 			iWorkProd ++;
 			if (bDebug)
@@ -279,21 +170,25 @@ public:
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(iIncomingMs));
 
-			_producer(prod, iIncomingMs, iOutgoingMs);
+			_produce(prod, iIncomingMs, iOutgoingMs);
 		}
+		bWork = false;  // FIXME experimental
 		LOG(info) << "producer end with " << iWorkProd;
 	}
 
 	void th_consume(const int idx, const int iOutgoingMs)
 	{
+		const std::string NICK = "consumer " + std::to_string(idx);
 		size_t uMaxTaskEver = 0;
 		uint uMaxMissEver = 0, uMiss = 0;
 
-		while (has_work(iWorkCons) or not empty())
+		LOG(info) << NICK << " start with " << iWorkCons;
+
+		while (has_work(NICK.c_str(), iWorkCons) or not empty())
 		{
-			_consumer(idx, iOutgoingMs, uMaxTaskEver, uMaxMissEver, uMiss);
+			_consume(idx, iOutgoingMs, uMaxTaskEver, uMaxMissEver, uMiss);
 		}
-		LOG(info) << "consumer " << idx << " end with " << iWorkCons << ", MaxTaskEver " << uMaxTaskEver << ", MaxMissEver " << uMaxMissEver;
+		LOG(info) << NICK << " end with " << iWorkCons << ", MaxTaskEver " << uMaxTaskEver << ", MaxMissEver " << uMaxMissEver;
 	}
 
 	void drive(const int njobs, const int nblobs, const int in_ms, const int out_ms)

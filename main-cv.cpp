@@ -110,10 +110,10 @@ class Driver final : public IDriver<std::queue<int>>
 {
 protected:
 
-	void _producer(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
+	void _produce(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
 	{}
 
-	void _consumer(int idx, int iOutgoingMs, size_t & uMaxTasksEver, uint & uMiss) override
+	void _consume(int idx, int iOutgoingMs, size_t & uMaxTasksEver, uint & uMiss) override
 	{}
 };
 #endif

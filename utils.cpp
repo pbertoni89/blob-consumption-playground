@@ -46,11 +46,10 @@ int work(const std::shared_ptr<Blob> & spBlob, const t_tp t0, const int iOutgoin
 
 void my_signal_handler(const int s)
 {
-	std::cerr << "\ncaught signal " << s << std::endl;
-	// if (bDebug)
-		LOG(fatal) << "caught signal " << s;
+	std::cerr << "stderr caught signal " << s << std::endl;
+	LOG(fatal) << "boost caught signal " << s;
 	boost::log::core::get()->flush();
-	std::cerr << "\nlogs flushed" << std::endl;
+	std::cerr << "logs flushed" << std::endl;
 	bWork = false;
 	iExitValue = 1;
 }
@@ -86,12 +85,16 @@ void omega(const int nJobs, const int nBlobs, const int iIncomingMs, const int i
 }
 
 
-bool has_work(std::atomic<int> & ai) noexcept
+bool has_work(const char * const reason, std::atomic<int> & ai) noexcept
 {
 	if (not bWork)
 		return false;
 	if (iWorkBlobs > 0)
+	{
+		if (bDebug)
+			LOG(trace) << "has_work " << reason << ": " << ai << " <? " << iWorkBlobs;
 		return ai < iWorkBlobs;
+	}
 	return true;
 }
 

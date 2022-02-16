@@ -9,13 +9,13 @@ class Driver final :
 	public IDriver<std::queue<std::future<int>>>
 {
 protected:
-	void _producer(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
+	void _produce(Producer & prod, const int iIncomingMs, const int iOutgoingMs) override
 	{
 		const auto t0 = tic();
 		m_q.emplace(std::async(std::launch::async, work, std::make_shared<Blob>(prod()), t0, iOutgoingMs));
 	}
 
-	void _consumer(const int idx, const int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) override
+	void _consume(const int idx, const int iOutgoingMs, size_t & uMaxTaskEver, uint & uMaxMissEver, uint & uMiss) override
 	{
 		const bool CONSUME = (not m_q.empty()
 							  and m_q.front().wait_for(std::chrono::seconds(0)) == std::future_status::ready);
